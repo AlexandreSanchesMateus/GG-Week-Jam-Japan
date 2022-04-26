@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [SerializeField] private GameObject crossAir;
+    public GameObject crossAir;
 
+    public Vector2 dir;
+
+    [Header("Stats")]
     [SerializeField] private int _life;
     public int life
     {
@@ -20,12 +23,7 @@ public class PlayerBase : MonoBehaviour
         set { _dammage = value; }
     }
 
-    private void Update()
-    {
-        Aim();
-    }
-
-    private void Aim()
+    public void Aim()
     {
         if (Input.GetKeyDown(KeyCode.H))// PI
         {
@@ -52,12 +50,12 @@ public class PlayerBase : MonoBehaviour
             crossAir.transform.localPosition = new Vector2(3, 0);
         }
     }
-    private void BasicAttack()
+    public virtual void BasicAttack()
     {
         Debug.Log("Basic Attack deals : " + damage);
     }
 
-    private void SpecialAttack()
+    public virtual void SpecialAttack()
     {
         Debug.Log("Spécial Attack deals : " + damage );
     }
