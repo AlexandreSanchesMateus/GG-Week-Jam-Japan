@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CollisionPlayer : MonoBehaviour
 {
+    public int _damage = 5;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision)
