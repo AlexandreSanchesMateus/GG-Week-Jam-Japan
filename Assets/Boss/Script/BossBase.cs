@@ -5,16 +5,11 @@ using UnityEngine;
 public class BossBase : MonoBehaviour
 {
     [Header ("General Settings")]
-    [SerializeField]
-    protected int _life;
+    [SerializeField] protected int _life;
 
     [Header ("Percentage Of Phase")]
-    [SerializeField]
-    [Range (0,100)]
-    private int _FirstStage = 1;
-    [SerializeField]
-    [Range(0, 100)]
-    private int _SecondStage = 1;
+    [SerializeField] [Range(0, 100)] private int _FirstStage = 1;
+    [SerializeField] [Range(0, 100)] private int _SecondStage = 1;
 
     protected STAGE _stage;
 
