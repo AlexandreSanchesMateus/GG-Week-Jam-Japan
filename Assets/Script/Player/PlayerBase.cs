@@ -70,6 +70,7 @@ public class PlayerBase : MonoBehaviour
             if (power[0])//kitsune = double jump
             {
                 GetComponent<PlayerMouvement>().allowDJ = power[0];
+                GetComponent<PlayerMouvement>().jumpForce /= 2;
             }
 
             if (power[1] && !isInvOnCd)//Yurei = invincibilité

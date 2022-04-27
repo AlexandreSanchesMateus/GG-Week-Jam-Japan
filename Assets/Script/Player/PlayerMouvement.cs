@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMouvement : PlayerBase
+public class PlayerMouvement : MonoBehaviour
 {
     [Header("Component")]
     private Rigidbody2D rb;
@@ -16,7 +16,7 @@ public class PlayerMouvement : PlayerBase
 
     [Header("Variable")]
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpForce;
+    public float jumpForce;
     private float horizontalMouvement;
     private Vector3 velocity;
 
@@ -78,7 +78,10 @@ public class PlayerMouvement : PlayerBase
         if (isGrounded)
         {
             hasDJ = true;
+            Debug.Log("GET GROUNDED BITCH");
         }
+
+        
     }
 
     private void OnDrawGizmos()
