@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RangePlayer : PlayerBase
 {
+    [Header("Range thing")]
     [SerializeField] private GameObject shuriken;
     [SerializeField] private int launchSpeed;
 
@@ -18,6 +19,12 @@ public class RangePlayer : PlayerBase
     {
         Aim();
         BasicAttack();
+        SpecialAttack();
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            TakeDamage();
+        }
     }
 
     public override void BasicAttack()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerMouvement : MonoBehaviour
+public class PlayerMouvement : PlayerBase
 {
     [Header("Component")]
     private Rigidbody2D rb;
