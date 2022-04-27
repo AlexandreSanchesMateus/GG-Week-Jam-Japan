@@ -13,10 +13,11 @@ public class Kitsune : BossBase
     [SerializeField] private GameObject _tailPrefab;
     [SerializeField] private float _timeBeforeAttack = 1;
     [SerializeField] [Range(0,50)] private int _reductionSecondPhase = 10;
+    [SerializeField] private GameObject[] _aroundTailPlace = new GameObject[9];
 
     private GameObject[] _belowTailPlace = new GameObject[9];
     private GameObject[] _sideTailPlace = new GameObject[9];
-    // private GameObject[] _aroundTailPlace = new GameObject[9];
+    
     private Transform _parentTail;
 
     [Header("Roar Attack Settings")]
@@ -73,10 +74,10 @@ public class Kitsune : BossBase
         }
 
 
-        float degres = b * Mathf.Deg2Rad;
+        /*float degres = b * Mathf.Deg2Rad;
         d = Mathf.Tan(degres);
         Vector2 Direc = new Vector2(Mathf.Cos(degres), Mathf.Sin(degres));
-        Debug.DrawRay(Vector3.zero, Direc * 2, Color.black);
+        Debug.DrawRay(Vector3.zero, Direc * 100, Color.black);
         c = Direc.y / Direc.x;
 
         Vector3 VectorToInvers = BossManager.instance._screenTopLeft - Vector3.zero;
@@ -90,7 +91,7 @@ public class Kitsune : BossBase
             positionTail = new Vector2(BossManager.instance._screenBottomRight.x, BossManager.instance._screenBottomRight.x * coefAngulair);
         // inverse -> positionTail = new Vector2(BossManager.instance._screenTopLeft.x, BossManager.instance._screenTopLeft.x * coefAngulair);
         else
-            positionTail = new Vector2(BossManager.instance._screenTopLeft.y / coefAngulair, BossManager.instance._screenTopLeft.y);
+            positionTail = new Vector2(BossManager.instance._screenTopLeft.y / coefAngulair, BossManager.instance._screenTopLeft.y);*/
 
 
         //positionTail = new Vector2(BossManager.instance._screenTopLeft.y, BossManager.instance._screenTopLeft.y * coefAngulair);
@@ -100,15 +101,15 @@ public class Kitsune : BossBase
         else
             positionTail = new Vector2(coefAngulair * BossManager.instance._screenTopLeft.x, BossManager.instance._screenBottomRight.y);*/
 
-        Debug.DrawLine(Vector3.zero, positionTail, Color.red);
+        //Debug.DrawLine(Vector3.zero, positionTail, Color.red);
 
         /*for (int i = 0; i < 9; i++)
         {
             float degres = (40 * i - 90) * Mathf.Deg2Rad;
             Vector2 Direc = new Vector2(Mathf.Cos(degres), Mathf.Sin(degres));
-            Debug.DrawRay(transform.position, Direc, Color.green);
+            Debug.DrawRay(Vector3.zero, Direc * 100, Color.green);
 
-            float coefAngulair = Mathf.Tan(degres);
+            // float coefAngulair = Mathf.Tan(degres);
 
             *//*Vector2 positionTail = new Vector2(Screen.height / 2, Screen.width / 2 * coefAngulair);
 
