@@ -11,11 +11,13 @@ public class PlayerMouvement : PlayerBase
 
     [Header("Conditions")] 
     [SerializeField] private bool isGrounded;
+    public bool allowDJ;
+    [SerializeField] private bool hasDJ = true;
 
     [Header("Variable")]
-    private float horizontalMouvement;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
+    private float horizontalMouvement;
     private Vector3 velocity;
 
     [Header("Ground Check")]
@@ -61,9 +63,21 @@ public class PlayerMouvement : PlayerBase
             isGrounded = false;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space) && !isGrounded && hasDJ && allowDJ)
+        {
+            rb.velocity = velocity;
+            rb.AddForce(new Vector2(0.0f, jumpForce * 2));
+            hasDJ = false;
+        }
+
         if (!isGrounded)
         {
             rb.AddForce(new Vector2(0.0f, -jumpForce/100));
+        }
+
+        if (isGrounded)
+        {
+            hasDJ = true;
         }
     }
 

@@ -31,8 +31,6 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private int invTime;
     private bool isInv;
 
-
-
     public void Aim()
     {
         if (Input.GetKeyDown(KeyCode.H))// PI
@@ -71,7 +69,7 @@ public class PlayerBase : MonoBehaviour
         {
             if (power[0])//kitsune = double jump
             {
-                
+                GetComponent<PlayerMouvement>().allowDJ = power[0];
             }
 
             if (power[1] && !isInvOnCd)//Yurei = invincibilité
