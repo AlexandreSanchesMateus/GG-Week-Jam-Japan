@@ -30,6 +30,8 @@ public class PlayerBase : MonoBehaviour
     private bool isInvOnCd;
     [SerializeField] private int invTime;
     private bool isInv;
+    [SerializeField] private GameObject Shield;
+
 
     public void Aim()
     {
@@ -69,8 +71,15 @@ public class PlayerBase : MonoBehaviour
         {
             if (power[0])//kitsune = double jump
             {
-                GetComponent<PlayerMouvement>().allowDJ = power[0];
-                GetComponent<PlayerMouvement>().jumpForce /= 2;
+                PlayerMouvement pm = GetComponent<PlayerMouvement>();
+                Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+                if (pm.hasDJ && !pm.isGrounded)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x,0);
+                    rb.AddForce(new Vector2(0.0f, pm.jumpForce));
+                    pm.hasDJ = false;
+                }
             }
 
             if (power[1] && !isInvOnCd)//Yurei = invincibilité
@@ -84,9 +93,9 @@ public class PlayerBase : MonoBehaviour
     {
         isInv = true;
         isInvOnCd = true;
-        Debug.Log("Start Inv");
+        Shield.SetActive(true);
         yield return new WaitForSeconds(_invTime);
-        Debug.Log("Stop Inv");
+        Shield.SetActive(false);
 
         isInv = false;
         isInvOnCd = true;
@@ -94,6 +103,14 @@ public class PlayerBase : MonoBehaviour
         yield return new WaitForSeconds(_invCd);
         Debug.Log("CD Inv OFF");
         isInvOnCd = false;
+    }
+
+    public void RollPowerUp()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Debug.Log("ROOLLLLLLLLL");
+        }
     }
 
     public void TakeDamage()

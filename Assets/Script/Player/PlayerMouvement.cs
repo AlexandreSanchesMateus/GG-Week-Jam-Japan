@@ -10,13 +10,13 @@ public class PlayerMouvement : MonoBehaviour
 
 
     [Header("Conditions")] 
-    [SerializeField] private bool isGrounded;
-    public bool allowDJ;
-    [SerializeField] private bool hasDJ = true;
+    public bool isGrounded;
+    public bool hasDJ = true;
 
     [Header("Variable")]
     [SerializeField] private float moveSpeed;
     public float jumpForce;
+    [SerializeField][Tooltip("0 = grounded")] private int gravityStrength;
     private float horizontalMouvement;
     private Vector3 velocity;
 
@@ -63,25 +63,14 @@ public class PlayerMouvement : MonoBehaviour
             isGrounded = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isGrounded && hasDJ && allowDJ)
-        {
-            rb.velocity = velocity;
-            rb.AddForce(new Vector2(0.0f, jumpForce * 2));
-            hasDJ = false;
-        }
-
         if (!isGrounded)
         {
-            rb.AddForce(new Vector2(0.0f, -jumpForce/100));
-        }
-
-        if (isGrounded)
-        {
-            hasDJ = true;
+            rb.AddForce(new Vector2(0.0f, -jumpForce/25));
             Debug.Log("GET GROUNDED BITCH");
         }
 
-        
+        if (isGrounded)
+            hasDJ = true;
     }
 
     private void OnDrawGizmos()

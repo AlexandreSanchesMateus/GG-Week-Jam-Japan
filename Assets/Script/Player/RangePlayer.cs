@@ -20,6 +20,7 @@ public class RangePlayer : PlayerBase
         Aim();
         BasicAttack();
         SpecialAttack();
+        RollPowerUp();
 
         if (Input.GetKeyDown(KeyCode.A))
         {
