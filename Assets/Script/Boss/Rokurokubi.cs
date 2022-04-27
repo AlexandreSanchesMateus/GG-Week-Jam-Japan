@@ -19,8 +19,6 @@ public class Rokurokubi : BossBase
                 break;
             case STAGE.HARD:
                 break;
-            case STAGE.IMPOSSIBLE:
-                break;
         }
     }
 

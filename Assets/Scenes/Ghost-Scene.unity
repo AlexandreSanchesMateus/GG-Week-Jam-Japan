@@ -1870,10 +1870,11 @@ MonoBehaviour:
   - {fileID: 1396856282}
   - {fileID: 1541077543}
   - {fileID: 1086610835}
+  CanChangeWith: 1
   _curvedProjectil: {fileID: 1937202695100014210, guid: faf4cf19964fe4342a4460d61fc701ba, type: 3}
   _LCurvedProjectilSpawn: {fileID: 662461355}
   _RCurvedProjectilSpawn: {fileID: 1180133136}
-  _PSpeed: 0.02
+  _PSpeed: 4
   _PPeriod: 1.2
   _PAmplitude: 0.05
   _fireballPrefab: {fileID: 7593445826879131505, guid: 4f233ce12181dcb4cb6170c4dc8f1d7e, type: 3}

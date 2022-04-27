@@ -19,9 +19,4 @@ public class BossManager : MonoBehaviour
         _screenTopLeft = Camera.main.ScreenToWorldPoint(_topLeft.position);
         _screenBottomRight = Camera.main.ScreenToWorldPoint(_bottomRight.position);
     }
-
-    public void DamageBoss(int damage)
-    {
-
-    }
 }

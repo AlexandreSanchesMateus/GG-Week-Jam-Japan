@@ -154,8 +154,6 @@ public class Kitsune : BossBase
                             break;
                     }
                     break;
-                case STAGE.IMPOSSIBLE:
-                    break;
             }
         }
     }

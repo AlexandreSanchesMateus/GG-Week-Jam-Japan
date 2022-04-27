@@ -7,12 +7,25 @@ public class Yurei : BossBase
     [Header("Ghost General Settings")]
     [SerializeField] private GameObject _ghostPrefab;
     [SerializeField] private List<Transform> _spawnPos = new List<Transform>(10);
+    [SerializeField] private float _timeToAttack;
+    [SerializeField] private float _newTimeToAttack;
+    [SerializeField] [Range(0,50)] int _reductionDamage;
+    
+    private bool reductionDamageEnable;
+    private float _currentTimeToAttack;
+
     private List<GameObject> _yureiGhost = new List<GameObject>();
+    private GameObject _realYurei;
+
+    private bool hasBeenHit = false;
+    public bool CanChangeWith = false;
+    private int _nbChange = 0;
 
     [Header("Curved Fireball Attack Settings")]
     [SerializeField] private GameObject _curvedProjectil;
     [SerializeField] private Transform _LCurvedProjectilSpawn;
     [SerializeField] private Transform _RCurvedProjectilSpawn;
+    [SerializeField] int _PDamage;
     [SerializeField] float _PSpeed;
     [SerializeField] float _PPeriod;
     [SerializeField] float _PAmplitude;
@@ -21,37 +34,53 @@ public class Yurei : BossBase
     [SerializeField] private GameObject _fireballPrefab;
     [SerializeField] private float _fireBallSpeed;
 
+    bool isInDefaultPlace;
 
     public override void Start()
     {
         base.Start();
         _yureiGhost.Add(Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity));
-
         InvokeRepeating("SpawnCurvedBullet", 5f, 2.5f);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("BOUR");
-            _yureiGhost[0].transform.position = GetRandomPos();
+            KageBunshinNoJutsu();
         }
 
-        switch (_stage)
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            case STAGE.NORMAL:
-                break;
-            case STAGE.HARD:
-                break;
-            case STAGE.IMPOSSIBLE:
-                break;
-        }
-    }
+            TakeDamage(5);
+        }*/
 
-    private Vector2 GetRandomPos()
-    {
-        return _yureiGhost[Random.Range(0, _yureiGhost.Count)].transform.position;
+        if (!_isAttacking)
+        {
+            _isAttacking = true;
+            CanChangeWith = false;
+            isInDefaultPlace = true;
+            int rd = Random.Range(0, 2);
+
+            switch (_stage)
+            {
+                case STAGE.NORMAL:
+                    reductionDamageEnable = false;
+                    _currentTimeToAttack = _timeToAttack;
+                    if (rd > 0)
+                        CanChangeWith = true;
+                    Invoke("KageBunshinNoJutsu", 2);
+                    break;
+
+                case STAGE.HARD:
+                    reductionDamageEnable = true;
+                    _currentTimeToAttack = _newTimeToAttack;
+                    if (rd > 0)
+                        CanChangeWith = true;
+                    Invoke("KageBunshinNoJutsu", 2);
+                    break;
+            }
+        }
     }
 
     private void SpawnCurvedBullet()
@@ -63,27 +92,72 @@ public class Yurei : BossBase
             spawnPos = _LCurvedProjectilSpawn.position;
         }
 
-        CurvedFireball instance = Instantiate<GameObject>(_curvedProjectil, spawnPos, rotation, BossManager.instance.transform.GetChild(0)).GetComponent<CurvedFireball>();
-        instance.speed = _PSpeed;
-        instance.period = _PPeriod;
-        instance.amplitude = _PAmplitude;
+        GameObject instance = Instantiate<GameObject>(_curvedProjectil, spawnPos, rotation, BossManager.instance.transform.GetChild(0));
+        CurvedFireball mouvement = instance.GetComponent<CurvedFireball>();
+        mouvement.speed = _PSpeed;
+        mouvement.period = _PPeriod;
+        mouvement.amplitude = _PAmplitude;
+
+        instance.GetComponent<CollisionPlayer>()._damage = _PDamage;
     }
 
     private void KageBunshinNoJutsu()
     {
-        List<Transform> selectedPlace = _spawnPos;
-        for(int i = 0; i < 4; i++)
+        ClearAllGhost();
+        isInDefaultPlace = false;
+        List<Transform> selectedPlace = new List<Transform>(_spawnPos);
+        for(int i = 0; i < 5; i++)
         {
             selectedPlace.Remove(selectedPlace[Random.Range(0,selectedPlace.Count)]);
         }
 
         foreach (Transform location in selectedPlace)
         {
-            _yureiGhost.Add(Instantiate<GameObject>(_ghostPrefab, location.position, Quaternion.identity));
+            GameObject instance = Instantiate<GameObject>(_ghostPrefab, location.position, Quaternion.identity);
+            _yureiGhost.Add(instance);
         }
+
+        _realYurei = _yureiGhost[Random.Range(0, _yureiGhost.Count)];
+        _realYurei.GetComponent<GhostYurei>().ActiveGhost(true);
+        Invoke("Fusion", _currentTimeToAttack);
     }
 
-    private IEnumerator FireballAttack()
+    private void Fusion()
+    {
+        ClearAllGhost();
+        CancelInvoke();
+        _yureiGhost.Add(Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity));
+        hasBeenHit = false;
+        _isAttacking = false;
+        _nbChange = 0;
+
+        if (CanChangeWith && _nbChange == 3)
+            base.TakeDamage(20);
+    }
+
+    private void ChangeYurei()
+    {
+        CancelInvoke();
+        _nbChange++;
+
+        _realYurei.GetComponent<GhostYurei>().ActiveGhost(false);
+        _realYurei = _yureiGhost[Random.Range(0, _yureiGhost.Count)];
+        _realYurei.GetComponent<GhostYurei>().ActiveGhost(true);
+
+        hasBeenHit = false;
+        Invoke("Fusion", _currentTimeToAttack);
+    }
+
+    private void ClearAllGhost()
+    {
+        foreach(GameObject ghost in _yureiGhost)
+        {
+            ghost.GetComponent<GhostYurei>().Disappear();
+        }
+        _yureiGhost.Clear();
+    }
+
+    /*private IEnumerator FireballAttack()
     {
         yield return new WaitForSeconds(1);
 
@@ -94,6 +168,26 @@ public class Yurei : BossBase
 
         yield return new WaitForSeconds(1);
         _isAttacking = false;
+    }*/
+
+    public override void TakeDamage(int damage)
+    {
+        if (!reductionDamageEnable)
+            base.TakeDamage(damage);
+        else
+            base.TakeDamage(damage * _reductionDamage / 100);
+
+        if (!isInDefaultPlace && !hasBeenHit)
+        {
+            CancelInvoke();
+            if (CanChangeWith && _nbChange < 3)
+                Invoke("ChangeYurei", 0.8f);
+            else
+                Invoke("Fusion", 1.5f);
+        }
+        else
+            return;
+        hasBeenHit = true;
     }
 
     public override void BossDeath()

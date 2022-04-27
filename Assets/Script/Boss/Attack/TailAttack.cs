@@ -7,6 +7,8 @@ public class TailAttack : MonoBehaviour
     private bool isExtended;
     private SpriteRenderer _sp;
 
+    [SerializeField] private int _damage;
+
     [SerializeField] private Sprite _normalTailSp;
     [SerializeField] private Sprite _extendedTailSp;
 
@@ -56,8 +58,8 @@ public class TailAttack : MonoBehaviour
             }
             else
             {
-                if(collision.CompareTag("Weapon"))
-                    BossManager.instance.DamageBoss(5);
+                if (collision.CompareTag("Weapon"))
+                    BossBase.instance.TakeDamage(_damage);
             }
         }
     }

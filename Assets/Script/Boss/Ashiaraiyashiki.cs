@@ -19,8 +19,6 @@ public class Ashiaraiyashiki : BossBase
                 break;
             case STAGE.HARD:
                 break;
-            case STAGE.IMPOSSIBLE:
-                break;
         }
     }
 
