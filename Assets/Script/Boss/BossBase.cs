@@ -12,6 +12,7 @@ public class BossBase : MonoBehaviour
     [SerializeField] [Range(0, 100)] private int _SecondStage = 1;
 
     protected STAGE _stage;
+    protected bool _isAttacking;
 
 
     public virtual void Start()

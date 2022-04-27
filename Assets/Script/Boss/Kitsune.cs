@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class Kitsune : BossBase
 {
-    [SerializeField] Transform Player;
-
-    private bool _isAttacking = false;
-
-    [Header("Fireball Attack Settings")]
-    [SerializeField] private GameObject _fireballPrefab;
-    [SerializeField] private Transform _firePos;
-    [SerializeField] private float _fireBallSpeed;
+    public int b;
+    public float c;
+    public float d;
+    public float angleToInvers;
 
     [Header("Tails Attack Settings")]
     [SerializeField] private GameObject _tailPrefab;
-    [SerializeField] private Transform _startPlacement;
-    [SerializeField] private Transform _endPlacement;
     [SerializeField] private float _timeBeforeAttack = 1;
     [SerializeField] [Range(0,50)] private int _reductionSecondPhase = 10;
 
     private GameObject[] _belowTailPlace = new GameObject[9];
+    private GameObject[] _sideTailPlace = new GameObject[9];
     // private GameObject[] _aroundTailPlace = new GameObject[9];
     private Transform _parentTail;
 
@@ -34,16 +29,34 @@ public class Kitsune : BossBase
         base.Start();
 
         _parentTail = BossManager.instance.transform.GetChild(0);
+        float spacer = (BossManager.instance._screenBottomRight.x - BossManager.instance._screenTopLeft.x) / 10.0f;
+        float distance = spacer;
 
-        _belowTailPlace[0] = Instantiate<GameObject>( _tailPrefab, new Vector3(_startPlacement.position.x, _startPlacement.position.y - 3, -1), Quaternion.identity, _parentTail);
-        float spacer = (_endPlacement.position.x - _startPlacement.position.x) / 8.0f;
-
-
-        for(int i = 1; i < _belowTailPlace.Length; i++)
+        for(int i = 0; i < _belowTailPlace.Length; i++)
         {
-            _belowTailPlace[i] = Instantiate<GameObject>(_tailPrefab, new Vector3(_belowTailPlace[i - 1].transform.position.x + spacer, _startPlacement.position.y - 3, -1), Quaternion.identity, _parentTail);
+            _belowTailPlace[i] = Instantiate<GameObject>(_tailPrefab, new Vector3(BossManager.instance._screenTopLeft.x + distance,
+                BossManager.instance._screenBottomRight.y + 1, -1), Quaternion.identity, _parentTail);
+            distance += spacer;
         }
 
+        spacer = (BossManager.instance._screenTopLeft.y - BossManager.instance._screenBottomRight.y) / 4.0f;
+        distance = spacer;
+        int index = 0;
+        for (int i = 0; i < 3; i++)
+        {
+            _sideTailPlace[index] = Instantiate<GameObject>(_tailPrefab, new Vector3(BossManager.instance._screenTopLeft.x -1,
+                BossManager.instance._screenBottomRight.y + distance, -1), Quaternion.Euler(0,0,-90), _parentTail);
+
+            _sideTailPlace[++index] = Instantiate<GameObject>(_tailPrefab, new Vector3(BossManager.instance._screenBottomRight.x + 1,
+                BossManager.instance._screenBottomRight.y + distance, -1), Quaternion.Euler(0,0,90), _parentTail);
+
+            index++;
+            distance += spacer;
+        }
+
+        _sideTailPlace[6] = _belowTailPlace[2];
+        _sideTailPlace[7] = _belowTailPlace[4];
+        _sideTailPlace[8] = _belowTailPlace[6];
     }
 
     void Update()
@@ -52,22 +65,57 @@ public class Kitsune : BossBase
         {
             TakeDamage(10);
             Debug.Log("Life : " + _life + "    Phase : " + _stage.ToString());
+
+            foreach(GameObject tail in _sideTailPlace)
+            {
+                tail.GetComponent<SpriteRenderer>().color = Color.black;
+            }
         }
+
+
+        float degres = b * Mathf.Deg2Rad;
+        d = Mathf.Tan(degres);
+        Vector2 Direc = new Vector2(Mathf.Cos(degres), Mathf.Sin(degres));
+        Debug.DrawRay(Vector3.zero, Direc * 2, Color.black);
+        c = Direc.y / Direc.x;
+
+        Vector3 VectorToInvers = BossManager.instance._screenTopLeft - Vector3.zero;
+        angleToInvers = Mathf.Atan2(VectorToInvers.y, VectorToInvers.x);
+        Debug.DrawRay(Vector3.zero, VectorToInvers, Color.green);
+
+        float coefAngulair = Mathf.Tan(degres);
+
+        Vector2 positionTail = Vector2.zero;
+        if(Mathf.Abs(BossManager.instance._screenBottomRight.x * coefAngulair) < BossManager.instance._screenBottomRight.x / 2)
+            positionTail = new Vector2(BossManager.instance._screenBottomRight.x, BossManager.instance._screenBottomRight.x * coefAngulair);
+        // inverse -> positionTail = new Vector2(BossManager.instance._screenTopLeft.x, BossManager.instance._screenTopLeft.x * coefAngulair);
+        else
+            positionTail = new Vector2(BossManager.instance._screenTopLeft.y / coefAngulair, BossManager.instance._screenTopLeft.y);
+
+
+        //positionTail = new Vector2(BossManager.instance._screenTopLeft.y, BossManager.instance._screenTopLeft.y * coefAngulair);
+
+        /*if (coefAngulair * BossManager.instance._screenTopLeft.x > BossManager.instance._screenBottomRight.y)
+            positionTail = new Vector2(BossManager.instance._screenTopLeft.x, BossManager.instance._screenBottomRight.y / coefAngulair);
+        else
+            positionTail = new Vector2(coefAngulair * BossManager.instance._screenTopLeft.x, BossManager.instance._screenBottomRight.y);*/
+
+        Debug.DrawLine(Vector3.zero, positionTail, Color.red);
 
         /*for (int i = 0; i < 9; i++)
         {
-            float degres = 40 * i * Mathf.Deg2Rad;
-            // Vector2 Direc = new Vector2(Mathf.Cos(degres), Mathf.Sin(degres));
-            // Debug.DrawRay(transform.position, Direc, Color.green);
+            float degres = (40 * i - 90) * Mathf.Deg2Rad;
+            Vector2 Direc = new Vector2(Mathf.Cos(degres), Mathf.Sin(degres));
+            Debug.DrawRay(transform.position, Direc, Color.green);
 
             float coefAngulair = Mathf.Tan(degres);
 
-            Vector2 positionTail = new Vector2(Screen.height / 2, Screen.width / 2 * coefAngulair);
+            *//*Vector2 positionTail = new Vector2(Screen.height / 2, Screen.width / 2 * coefAngulair);
 
             if(positionTail.y > transform.position.y + Screen.width/2)
                 positionTail = new Vector2((Screen.height / 2 )/ coefAngulair,Screen.height / 2);
 
-            Debug.DrawLine(Vector3.zero, positionTail, Color.red);
+            Debug.DrawLine(Vector3.zero, positionTail, Color.red);*//*
         }*/
 
         if (!_isAttacking)
@@ -132,8 +180,9 @@ public class Kitsune : BossBase
 
     private IEnumerator BelowTailsAttack(float delay)
     {
+        // animation d'entrée
         yield return new WaitForSeconds(2);
-        _parentTail.transform.position = new Vector3(0,3,0);
+        // animation idle
         yield return new WaitForSeconds(delay);
 
         foreach(GameObject tail in _belowTailPlace)
@@ -142,15 +191,13 @@ public class Kitsune : BossBase
         }
 
         yield return new WaitForSeconds(2);
-
         foreach (GameObject tail in _belowTailPlace)
         {
             tail.GetComponent<TailAttack>().TransformTail(false);
         }
 
         yield return new WaitForSeconds(1);
-
-        _parentTail.transform.position = new Vector3(0, 0, 0);
+        // animation de sortie
         _isAttacking = false;
     }
 
@@ -159,18 +206,6 @@ public class Kitsune : BossBase
         yield return new WaitForSeconds(1);
         _isAttacking = false;
     }
-
-    /*private IEnumerator FireballAttack()
-    {
-        yield return new WaitForSeconds(1);
-
-        GameObject instance = Instantiate<GameObject>(_fireballPrefab, _firePos);
-        Vector2 DirPlayer = Player.transform.position - transform.position;
-        instance.GetComponent<Rigidbody2D>().AddForce(DirPlayer.normalized * _fireBallSpeed);
-
-        yield return new WaitForSeconds(1);
-        _isAttacking = false;
-    }*/
 
 
     public override void BossDeath()
