@@ -53,7 +53,7 @@ public class Yurei : BossBase
             KageBunshinNoJutsu();
         }*/
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TakeDamage(5);
         }

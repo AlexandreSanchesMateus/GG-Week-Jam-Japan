@@ -120,8 +120,10 @@ public class PlayerBase : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             _spin = true;
-            StartCoroutine(StopSpin(3));
+
+            deltaSpin = 0;
             StartCoroutine(Spin());
+            StartCoroutine(StopSpin(5));
         }
     }
 
