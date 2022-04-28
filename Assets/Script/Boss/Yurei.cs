@@ -158,7 +158,7 @@ public class Yurei : BossBase
     {
         foreach(GameObject ghost in _yureiGhost)
         {
-            ghost.GetComponent<GhostYurei>().Disappear();
+            ghost.GetComponent<GhostYurei>().StartCoroutine("Disappear");
         }
         _yureiGhost.Clear();
     }
