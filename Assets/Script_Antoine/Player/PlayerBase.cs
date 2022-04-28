@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -32,6 +33,15 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private int invTime;
     private bool isInv;
     [SerializeField] private GameObject Shield;
+
+    [Header("UI")] 
+    [SerializeField] private Image[] powersUp;
+    [SerializeField] private Image powerUpHolder;
+    private bool _spin = false;
+    [SerializeField] private Color[] _test;
+    private int _curentSpin;
+    public AnimationCurve spinSpeed;
+    private float deltaSpin;
 
     public void Aim()
     {
@@ -109,8 +119,29 @@ public class PlayerBase : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("ROOLLLLLLLLL");
+            _spin = true;
+            StartCoroutine(StopSpin(3));
+            StartCoroutine(Spin());
         }
+    }
+
+    private IEnumerator Spin()
+    {
+        if (_spin)
+        {
+            _curentSpin = (_curentSpin + 1) % _test.Length;
+            powerUpHolder.color = _test[_curentSpin];
+            deltaSpin += Time.deltaTime;
+            yield return new WaitForSeconds(spinSpeed.Evaluate(deltaSpin));
+
+            StartCoroutine(Spin());
+        }
+    }
+
+    private IEnumerator StopSpin(int timer)
+    {
+        yield return new WaitForSeconds(timer);
+        _spin = false;
     }
 
     public void TakeDamage()
