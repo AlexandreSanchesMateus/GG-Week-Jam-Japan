@@ -12,7 +12,7 @@ public class CollisionPlayer : MonoBehaviour
         {
             if (collision.CompareTag("Player"))
             {
-                Debug.Log("Collision détecté");
+                collision.gameObject.GetComponent<PlayerBase>().TakeDamage();
             }
         }
     }

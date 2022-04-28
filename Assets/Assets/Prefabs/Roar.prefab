@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3309767864554905132}
   - component: {fileID: 3480238918208912399}
   - component: {fileID: 5842423151523366365}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roar
-  m_TagString: Untagged
+  m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

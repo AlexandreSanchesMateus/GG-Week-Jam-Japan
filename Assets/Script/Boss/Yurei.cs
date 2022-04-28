@@ -7,9 +7,9 @@ public class Yurei : BossBase
     [Header("Ghost General Settings")]
     [SerializeField] private GameObject _ghostPrefab;
     [SerializeField] private List<Transform> _spawnPos = new List<Transform>(10);
-    [SerializeField] private float _timeToAttack;
-    [SerializeField] private float _newTimeToAttack;
-    [SerializeField] [Range(0,50)] int _reductionDamage;
+    [SerializeField] private float _timeToAttack = 10;
+    [SerializeField] private float _newTimeToAttack = 7;
+    [SerializeField] [Range(0,50)] int _reductionDamage = 10;
     
     private bool reductionDamageEnable;
     private float _currentTimeToAttack;
@@ -39,8 +39,11 @@ public class Yurei : BossBase
     public override void Start()
     {
         base.Start();
-        _yureiGhost.Add(Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity));
+        _realYurei = Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity);
+        _realYurei.GetComponent<GhostYurei>().ActiveGhost(true);
+        _yureiGhost.Add(_realYurei);
         InvokeRepeating("SpawnCurvedBullet", 5f, 2.5f);
+        _currentTimeToAttack = _timeToAttack;
     }
 
     void Update()
@@ -48,18 +51,17 @@ public class Yurei : BossBase
         /*if (Input.GetKeyDown(KeyCode.E))
         {
             KageBunshinNoJutsu();
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.A))
         {
             TakeDamage(5);
-        }*/
+        }
 
         if (!_isAttacking)
         {
             _isAttacking = true;
             CanChangeWith = false;
-            isInDefaultPlace = true;
             int rd = Random.Range(0, 2);
 
             switch (_stage)
@@ -103,6 +105,7 @@ public class Yurei : BossBase
 
     private void KageBunshinNoJutsu()
     {
+        Debug.Log("Attack");
         ClearAllGhost();
         isInDefaultPlace = false;
         List<Transform> selectedPlace = new List<Transform>(_spawnPos);
@@ -126,9 +129,12 @@ public class Yurei : BossBase
     {
         ClearAllGhost();
         CancelInvoke();
-        _yureiGhost.Add(Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity));
+        _realYurei = Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity);
+        _yureiGhost.Add(_realYurei);
+        _realYurei.GetComponent<GhostYurei>().ActiveGhost(true);
         hasBeenHit = false;
         _isAttacking = false;
+        isInDefaultPlace = true;
         _nbChange = 0;
 
         if (CanChangeWith && _nbChange == 3)

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2701632931381603368}
   - component: {fileID: 2177882356980269784}
   - component: {fileID: 8283825118509189593}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tail
-  m_TagString: Untagged
+  m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f77bb8930c39f041af6dcfacdf463f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damage: 0
   _normalTailSp: {fileID: 21300000, guid: ab8b55a86bad27a41b5da482e1ec4720, type: 3}
   _extendedTailSp: {fileID: 21300000, guid: 7d0984a47801ecc4082c882f2d09a983, type: 3}
   _normalTailCollider: {fileID: 2177882356980269784}
