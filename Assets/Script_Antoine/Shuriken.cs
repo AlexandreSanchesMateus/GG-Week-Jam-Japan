@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Shuriken : MonoBehaviour
-{
-
+{    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision != null)

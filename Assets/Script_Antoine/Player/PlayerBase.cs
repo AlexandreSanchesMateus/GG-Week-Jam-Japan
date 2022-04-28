@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
+    [SerializeField] private Animator animator;
     public GameObject crossAir;
     public Vector2 dir;
 
@@ -31,7 +32,6 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private int invTime;
     private bool isInv;
     [SerializeField] private GameObject Shield;
-
 
     public void Aim()
     {
