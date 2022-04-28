@@ -18,6 +18,11 @@ public class LevelLoader : MonoBehaviour
         StartCoroutine(LoadLevel(index));
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     private IEnumerator LoadLevel(int index)
     {
         animator.SetTrigger("Start");
