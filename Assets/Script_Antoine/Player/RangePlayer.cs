@@ -16,6 +16,7 @@ public class RangePlayer : PlayerBase
         BasicAttack();
         SpecialAttack();
         RollPowerUp();
+        Anim(GetComponent<PlayerMouvement>().rb);
 
         if (Input.GetKeyDown(KeyCode.A))
         {

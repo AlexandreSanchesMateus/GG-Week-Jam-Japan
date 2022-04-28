@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class PlayerBase : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     public GameObject crossAir;
     public Vector2 dir;
 
@@ -32,7 +34,6 @@ public class PlayerBase : MonoBehaviour
     private bool isInvOnCd;
     [SerializeField] private int invTime;
     private bool isInv;
-    [SerializeField] private GameObject Shield;
 
     [Header("UI")] 
     [SerializeField] private Image[] powersUp;
@@ -70,6 +71,23 @@ public class PlayerBase : MonoBehaviour
             crossAir.transform.localPosition = new Vector2(3, 0);
         }
     }
+
+    public void Anim(Rigidbody2D _rb)
+    {
+        animator.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
+
+        animator.SetInteger("Life", life);
+
+        if (_rb.velocity.x > 0.1f)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (_rb.velocity.x < -0.1f)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
     public virtual void BasicAttack()
     {
         Debug.Log("Basic Attack deals : " + damage);
@@ -103,9 +121,7 @@ public class PlayerBase : MonoBehaviour
     {
         isInv = true;
         isInvOnCd = true;
-        Shield.SetActive(true);
         yield return new WaitForSeconds(_invTime);
-        Shield.SetActive(false);
 
         isInv = false;
         isInvOnCd = true;
@@ -150,6 +166,7 @@ public class PlayerBase : MonoBehaviour
     {
         if (!isInv)
         {
+            life -= 1;
             Debug.Log("The player took damage and now have " + life);
             
         }
