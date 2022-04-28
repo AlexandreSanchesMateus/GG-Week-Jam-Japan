@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 820093457352593802}
   - component: {fileID: -5113316475661048166}
   - component: {fileID: 6788643507608242171}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CurvedFireball
-  m_TagString: Untagged
+  m_TagString: Enemie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
