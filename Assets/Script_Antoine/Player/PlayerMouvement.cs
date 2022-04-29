@@ -71,7 +71,7 @@ public class PlayerMouvement : MonoBehaviour
 
         if (!isGrounded)
         {
-            rb.AddForce(new Vector2(0.0f, -jumpForce/25));
+            rb.AddForce(new Vector2(0.0f, -jumpForce/100));
             Debug.Log("GET GROUNDED BITCH");
         }
 

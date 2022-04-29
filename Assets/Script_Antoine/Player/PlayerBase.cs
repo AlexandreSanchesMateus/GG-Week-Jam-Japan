@@ -36,7 +36,7 @@ public class PlayerBase : MonoBehaviour
     private bool isInv;
 
     [Header("UI")] 
-    [SerializeField] private Image[] powersUp;
+    [SerializeField] private Sprite[] powersUp;
     [SerializeField] private Image powerUpHolder;
     private bool _spin = false;
     [SerializeField] private Color[] _test;
@@ -77,6 +77,8 @@ public class PlayerBase : MonoBehaviour
         animator.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
 
         animator.SetInteger("Life", life);
+
+        animator.SetBool("isGrounded",GetComponent<PlayerMouvement>().isGrounded);
 
         if (_rb.velocity.x > 0.1f)
         {
@@ -147,8 +149,8 @@ public class PlayerBase : MonoBehaviour
     {
         if (_spin)
         {
-            _curentSpin = (_curentSpin + 1) % _test.Length;
-            powerUpHolder.color = _test[_curentSpin];
+            _curentSpin = (_curentSpin + 1) % powersUp.Length;
+            powerUpHolder.sprite= powersUp[_curentSpin];
             deltaSpin += Time.deltaTime;
             yield return new WaitForSeconds(spinSpeed.Evaluate(deltaSpin));
 
@@ -167,7 +169,7 @@ public class PlayerBase : MonoBehaviour
         if (!isInv)
         {
             life -= 1;
-            Debug.Log("The player took damage and now have " + life);
+            //Debug.Log("The player took damage and now have " + life);
             
         }
     }
