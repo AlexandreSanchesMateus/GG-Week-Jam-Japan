@@ -46,27 +46,31 @@ public class PlayerBase : MonoBehaviour
 
     public void Aim()
     {
-        if (Input.GetKeyDown(KeyCode.H))// PI
-        {
-            crossAir.transform.localPosition = new Vector2(-3, 0);
-        }
+        bool _KeyH = Input.GetKey(KeyCode.H);
+        bool _KeyM = Input.GetKey(KeyCode.M);
+        bool _KeyI = Input.GetKey(KeyCode.I);
 
-        if (Input.GetKeyDown(KeyCode.U))// 3PI/4
+        if (_KeyH && _KeyI)
         {
             crossAir.transform.localPosition = new Vector2(-2, 2);
         }
 
-        if (Input.GetKeyDown(KeyCode.I))// PI/2
-        {
-            crossAir.transform.localPosition = new Vector2(0, 3);
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))// PI/4
+        else if (_KeyI && _KeyM)
         {
             crossAir.transform.localPosition = new Vector2(2, 2);
         }
 
-        if (Input.GetKeyDown(KeyCode.M))// 0
+        else if (_KeyH)
+        {
+            crossAir.transform.localPosition = new Vector2(-3, 0);
+        }
+
+        else if (_KeyI)
+        {
+            crossAir.transform.localPosition = new Vector2(0, 3);
+        }
+
+        else if (_KeyM)
         {
             crossAir.transform.localPosition = new Vector2(3, 0);
         }
