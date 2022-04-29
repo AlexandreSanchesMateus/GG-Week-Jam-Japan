@@ -5,8 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    public static LevelLoader instance { get; private set; }
+
     [SerializeField] private Animator animator;
     [SerializeField] private float transitionTime = 1.5f;
+
+    private void Start()
+    {
+        instance = this;
+    }
 
     public void LoadNextLevel()
     {
