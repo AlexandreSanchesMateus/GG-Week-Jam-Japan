@@ -19,6 +19,7 @@ public class BossBase : MonoBehaviour
 
     [Header("UI")] 
     [SerializeField] private GameObject lifeBar;
+    [SerializeField] private float maxLifeScale;
 
 
     public virtual void Start()
@@ -30,6 +31,7 @@ public class BossBase : MonoBehaviour
             Debug.LogWarning("Warning : le pourcentage de la 1er phase est égal à 100%. La deuxième sera ignoré");
 
         maxLife = _life;
+        maxLifeScale = lifeBar.transform.localScale.x;
     }
 
     public virtual void TakeDamage(int damage)
@@ -47,7 +49,7 @@ public class BossBase : MonoBehaviour
         else 
             _stage = STAGE.HARD;
 
-        currentLifeUI = (float)(_life * 5) / maxLife;
+        currentLifeUI = (float)(_life * maxLifeScale) / maxLife;
         lifeBar.transform.localScale = new Vector3(currentLifeUI, lifeBar.transform.localScale.y, lifeBar.transform.localScale.z);
         Debug.Log(currentLifeUI);
     }
