@@ -268,10 +268,7 @@ MonoBehaviour:
   power: 0100
   invCdTime: 3
   invTime: 2
-  powersUp:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  powersUp: []
   powerUpHolder: {fileID: 0}
   _test: []
   spinSpeed:
