@@ -6,8 +6,7 @@ using UnityEngine;
 public class PlayerMouvement : MonoBehaviour
 {
     [Header("Component")]
-    private Rigidbody2D rb;
-
+    public Rigidbody2D rb;
 
     [Header("Conditions")] 
     public bool isGrounded;
@@ -58,6 +57,8 @@ public class PlayerMouvement : MonoBehaviour
         Vector3 targetVelocity = new Vector2(_horizontalMouvement, rb.velocity.y);
         //Move the player
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, .05f);
+
+
     }
 
     private void Jump()

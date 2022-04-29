@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     public GameObject crossAir;
     public Vector2 dir;
 
@@ -31,7 +34,15 @@ public class PlayerBase : MonoBehaviour
     private bool isInvOnCd;
     [SerializeField] private int invTime;
     private bool isInv;
-    [SerializeField] private GameObject Shield;
+
+    [Header("UI")] 
+    [SerializeField] private Image[] powersUp;
+    [SerializeField] private Image powerUpHolder;
+    private bool _spin = false;
+    [SerializeField] private Color[] _test;
+    private int _curentSpin;
+    public AnimationCurve spinSpeed;
+    private float deltaSpin;
 
     public void Aim()
     {
@@ -60,6 +71,23 @@ public class PlayerBase : MonoBehaviour
             crossAir.transform.localPosition = new Vector2(3, 0);
         }
     }
+
+    public void Anim(Rigidbody2D _rb)
+    {
+        animator.SetFloat("Speed", Mathf.Abs(_rb.velocity.x));
+
+        animator.SetInteger("Life", life);
+
+        if (_rb.velocity.x > 0.1f)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (_rb.velocity.x < -0.1f)
+        {
+            spriteRenderer.flipX = false;
+        }
+    }
+
     public virtual void BasicAttack()
     {
         Debug.Log("Basic Attack deals : " + damage);
@@ -93,9 +121,7 @@ public class PlayerBase : MonoBehaviour
     {
         isInv = true;
         isInvOnCd = true;
-        Shield.SetActive(true);
         yield return new WaitForSeconds(_invTime);
-        Shield.SetActive(false);
 
         isInv = false;
         isInvOnCd = true;
@@ -109,14 +135,38 @@ public class PlayerBase : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            Debug.Log("ROOLLLLLLLLL");
+            _spin = true;
+
+            deltaSpin = 0;
+            StartCoroutine(Spin());
+            StartCoroutine(StopSpin(5));
         }
+    }
+
+    private IEnumerator Spin()
+    {
+        if (_spin)
+        {
+            _curentSpin = (_curentSpin + 1) % _test.Length;
+            powerUpHolder.color = _test[_curentSpin];
+            deltaSpin += Time.deltaTime;
+            yield return new WaitForSeconds(spinSpeed.Evaluate(deltaSpin));
+
+            StartCoroutine(Spin());
+        }
+    }
+
+    private IEnumerator StopSpin(int timer)
+    {
+        yield return new WaitForSeconds(timer);
+        _spin = false;
     }
 
     public void TakeDamage()
     {
         if (!isInv)
         {
+            life -= 1;
             Debug.Log("The player took damage and now have " + life);
             
         }
