@@ -66,6 +66,8 @@ public class DialogueManager : MonoBehaviour
 
         if (dialogue.Length != 0)
         {
+
+            sensei.transform.GetComponent<Animator>().SetTrigger("Speaking");
             TMP.text = "";
             yield return new WaitForSeconds(transitionTime);
 
@@ -74,6 +76,7 @@ public class DialogueManager : MonoBehaviour
                 TMP.text += letter;
                 yield return new WaitForSeconds(0.1f);
             }
+            sensei.transform.GetComponent<Animator>().SetTrigger("Speaking");
         }
     }
 
