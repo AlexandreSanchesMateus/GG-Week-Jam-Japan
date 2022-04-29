@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7632546615893099107}
   - component: {fileID: 3821329274721855713}
   - component: {fileID: 3028273175547462879}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ReaspawnZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 959664636960633782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RespawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}

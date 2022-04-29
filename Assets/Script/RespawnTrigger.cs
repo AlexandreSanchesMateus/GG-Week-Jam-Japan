@@ -13,7 +13,7 @@ public class RespawnTrigger : MonoBehaviour
         _collider = gameObject.GetComponent<Collider2D>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("Player"))
         {

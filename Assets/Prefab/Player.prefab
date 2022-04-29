@@ -236,10 +236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9daa103d201fd404d8bed4ca083e8039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   isGrounded: 0
   hasDJ: 0
   moveSpeed: 500
-  jumpForce: 500
+  jumpForce: 725
   gravityStrength: 0
   groundCheck: {fileID: 38021517698743490}
   groundCheckRadius: 0.38
@@ -259,10 +260,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 760162873}
+  spriteRenderer: {fileID: 38021517426345687}
   crossAir: {fileID: 38021517758180877}
   dir: {x: 0, y: 0}
-  _life: 0
-  _dammage: 0
+  _life: 15
+  _dammage: 10
   power: 0100
   invCdTime: 3
   invTime: 2
@@ -321,7 +323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38021517698743491}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.51, z: 0}
+  m_LocalPosition: {x: 0, y: -0.931, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
