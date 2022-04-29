@@ -38,6 +38,9 @@ public class DialogueManager : MonoBehaviour
                 distance = newDistance;
             }
         }
+        
+        Vector2 cameraPos = Camera.main.WorldToScreenPoint(new Vector3(_closestSensei.transform.position.x - 2.5f, _closestSensei.transform.position.y + 1.5f));
+        gameObject.transform.position = cameraPos;
 
         if (Mathf.Abs(distance) < range)
         {
@@ -59,8 +62,7 @@ public class DialogueManager : MonoBehaviour
 
     public IEnumerator DisplayDialogue(GameObject sensei, string dialogue, float transitionTime = 0.5f)
     {
-        Vector2 cameraPos = Camera.main.WorldToScreenPoint(new Vector3(sensei.transform.position.x + 1, sensei.transform.position.y + 2));
-        gameObject.transform.position = cameraPos;
+        
 
         if (dialogue.Length != 0)
         {
