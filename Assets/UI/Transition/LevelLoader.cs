@@ -15,6 +15,14 @@ public class LevelLoader : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+            ExitGame();
+        if (Input.GetKeyDown(KeyCode.Space))
+            LoadNextLevel();
+    }
+
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
