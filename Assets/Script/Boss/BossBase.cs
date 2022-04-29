@@ -51,7 +51,7 @@ public class BossBase : MonoBehaviour
 
         currentLifeUI = (float)(_life * maxLifeScale) / maxLife;
         lifeBar.transform.localScale = new Vector3(currentLifeUI, lifeBar.transform.localScale.y, lifeBar.transform.localScale.z);
-        Debug.Log(currentLifeUI);
+        //Debug.Log(currentLifeUI);
     }
 
     public virtual void BossDeath()
