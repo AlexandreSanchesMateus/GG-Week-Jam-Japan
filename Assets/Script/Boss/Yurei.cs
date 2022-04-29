@@ -42,7 +42,7 @@ public class Yurei : BossBase
         _realYurei = Instantiate<GameObject>(_ghostPrefab, _spawnPos[6].position, Quaternion.identity);
         _realYurei.GetComponent<GhostYurei>().ActiveGhost(true);
         _yureiGhost.Add(_realYurei);
-        InvokeRepeating("SpawnCurvedBullet", 5f, 2.5f);
+        StartCoroutine(SpawnCurvedBullet());
         _currentTimeToAttack = _timeToAttack;
     }
 
@@ -85,8 +85,9 @@ public class Yurei : BossBase
         }
     }
 
-    private void SpawnCurvedBullet()
+    private IEnumerator SpawnCurvedBullet()
     {
+        yield return new WaitForSeconds(3f);
         Quaternion rotation = Quaternion.identity;
         Vector3 spawnPos = _RCurvedProjectilSpawn.position;
         if (Random.Range(0, 2) > 0) {
@@ -101,6 +102,8 @@ public class Yurei : BossBase
         mouvement.amplitude = _PAmplitude;
 
         instance.GetComponent<CollisionPlayer>()._damage = _PDamage;
+
+        StartCoroutine("SpawnCurvedBullet");
     }
 
     private void KageBunshinNoJutsu()
