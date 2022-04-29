@@ -53,7 +53,7 @@ public class Yurei : BossBase
             KageBunshinNoJutsu();
         }*/
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             TakeDamage(5);
         }
@@ -158,7 +158,7 @@ public class Yurei : BossBase
     {
         foreach(GameObject ghost in _yureiGhost)
         {
-            ghost.GetComponent<GhostYurei>().Disappear();
+            ghost.GetComponent<GhostYurei>().StartCoroutine("Disappear");
         }
         _yureiGhost.Clear();
     }

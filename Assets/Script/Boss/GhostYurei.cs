@@ -5,6 +5,7 @@ using UnityEngine;
 public class GhostYurei : MonoBehaviour
 {
     [SerializeField] private BoxCollider2D m_collider2D;
+    [SerializeField] private Animator animator;
 
     private void Awake()
     {
@@ -16,7 +17,7 @@ public class GhostYurei : MonoBehaviour
     {
         if (active)
         {
-            gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            gameObject.GetComponent<SpriteRenderer>().color = Color.black;
             m_collider2D.enabled = true;
         }
         else
@@ -26,9 +27,10 @@ public class GhostYurei : MonoBehaviour
         }
     }
 
-    public void Disappear()
+    public IEnumerator Disappear()
     {
-        //animation de disparition
+        animator.SetTrigger("Disappear");
+        yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }
 }
